@@ -104,8 +104,8 @@ function App() {
   }, [stored])
 
   useEffect(() => {
-    const intervalMs = 100 // update every 0.1 seconds
-    const id = setInterval(() => {
+    let raf = 0
+    const tick = () => {
       const now = new Date()
       setAmounts({
         daily: earnedForPeriod(principal, apr, compounding, 'daily', now),
@@ -113,8 +113,10 @@ function App() {
         monthly: earnedForPeriod(principal, apr, compounding, 'monthly', now),
         yearly: earnedForPeriod(principal, apr, compounding, 'yearly', now),
       })
-    }, intervalMs)
-    return () => clearInterval(id)
+      raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
   }, [principal, apr, compounding])
 
   const mainAmount = valid ? amounts[selectedPeriod] : 0
