@@ -24,7 +24,7 @@ export function CounterDisplay({
   valid,
 }: CounterDisplayProps) {
   const displayValue = valid ? mainAmount : 0
-  const mainFormatted = formatCurrency(displayValue, currency, { decimals: 6 })
+  const mainFormatted = formatCurrency(displayValue, currency, { decimals: 5 })
 
   return (
     <section className="counter-display" aria-live="polite" aria-atomic="true">
@@ -37,7 +37,7 @@ export function CounterDisplay({
           <div key={period} className="counter-secondary-item">
             <span className="counter-secondary-label">{PERIOD_LABELS[period]}:</span>
             <span className="counter-secondary-value">
-              {valid ? formatCurrency(amount, currency, { decimals: 6 }) : formatCurrency(0, currency, { decimals: 6 })}
+              {valid ? formatCurrency(amount, currency, { decimals: 5 }) : formatCurrency(0, currency, { decimals: 5 })}
             </span>
           </div>
         ))}
