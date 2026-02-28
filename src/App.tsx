@@ -11,10 +11,7 @@ import { loadState, saveState, getDefaultStartTime, type StoredState } from './u
 import { InputPanel } from './components/InputPanel'
 import { PeriodToggles } from './components/PeriodToggles'
 import { CounterDisplay } from './components/CounterDisplay'
-import { IncomeCharts, type HistoryPoint } from './components/IncomeCharts'
 import './App.css'
-
-const HISTORY_MAX = 300 // ~30 sec at 10 updates/sec
 
 export type Period = 'daily' | 'weekly' | 'monthly' | 'yearly'
 
@@ -71,7 +68,6 @@ function App() {
     monthly: 0,
     yearly: 0,
   })
-  const [history, setHistory] = useState<HistoryPoint[]>([])
   const [dark, setDark] = useState(() => {
     if (typeof window === 'undefined') return false
     return window.matchMedia('(prefers-color-scheme: dark)').matches
@@ -97,10 +93,6 @@ function App() {
     persist()
   }, [persist])
 
-  useEffect(() => {
-    setHistory([])
-  }, [selectedPeriod])
-
   const resetTimer = useCallback(() => {
     const t = getDefaultStartTime()
     setStartTime(t)
@@ -115,22 +107,15 @@ function App() {
     const intervalMs = 100 // update every 0.1 seconds
     const id = setInterval(() => {
       const now = new Date()
-      const next = {
+      setAmounts({
         daily: earnedForPeriod(principal, apr, compounding, 'daily', now),
         weekly: earnedForPeriod(principal, apr, compounding, 'weekly', now),
         monthly: earnedForPeriod(principal, apr, compounding, 'monthly', now),
         yearly: earnedForPeriod(principal, apr, compounding, 'yearly', now),
-      }
-      setAmounts(next)
-      const main = valid ? next[selectedPeriod] : 0
-      setHistory((prev) => {
-        const nextPoint: HistoryPoint = { t: Date.now(), value: main }
-        const combined = [...prev, nextPoint]
-        return combined.length > HISTORY_MAX ? combined.slice(-HISTORY_MAX) : combined
       })
     }, intervalMs)
     return () => clearInterval(id)
-  }, [principal, apr, compounding, valid, selectedPeriod])
+  }, [principal, apr, compounding])
 
   const mainAmount = valid ? amounts[selectedPeriod] : 0
   const secondary = PERIODS.filter((p) => p !== selectedPeriod).map((p) => ({
@@ -172,14 +157,6 @@ function App() {
         mainAmount={mainAmount}
         mainLabel={selectedPeriod}
         secondary={secondary}
-        currency={currency}
-        valid={valid}
-      />
-
-      <IncomeCharts
-        history={history}
-        amounts={amounts}
-        selectedPeriod={selectedPeriod}
         currency={currency}
         valid={valid}
       />

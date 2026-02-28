@@ -261,46 +261,6 @@ body {
   text-overflow: ellipsis;
 }
 
-/* Charts */
-.income-charts {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  margin-bottom: 1.5rem;
-}
-
-.chart-card {
-  background: var(--surface);
-  border: 1px solid var(--input-border);
-  border-radius: 12px;
-  padding: 1rem;
-  overflow: hidden;
-}
-
-.chart-title {
-  margin: 0 0 0.2rem;
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--text);
-}
-
-.chart-subtitle {
-  margin: 0 0 0.75rem;
-  font-size: 0.8rem;
-  color: var(--text-muted);
-}
-
-.chart-inner {
-  width: 100%;
-  min-height: 160px;
-}
-
-.income-charts .recharts-cartesian-grid-horizontal line,
-.income-charts .recharts-cartesian-grid-vertical line {
-  stroke: var(--input-border);
-  opacity: 0.4;
-}
-
 .assumption-text {
   font-size: 0.75rem;
   color: var(--text-muted);
