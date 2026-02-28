@@ -1,0 +1,271 @@
+/* Passive Income Timer - debt-clock style */
+
+:root {
+  --bg: #0f0f12;
+  --surface: #1a1a20;
+  --text: #e8e8ed;
+  --text-muted: #9898a6;
+  --accent: #00c853;
+  --accent-dim: #00a843;
+  --input-bg: #25252d;
+  --input-border: #3a3a45;
+  --invalid: #ff5252;
+  --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+  --font-sans: 'Outfit', system-ui, sans-serif;
+}
+
+.theme-light {
+  --bg: #f5f5f7;
+  --surface: #ffffff;
+  --text: #1d1d1f;
+  --text-muted: #6e6e73;
+  --accent: #007a3d;
+  --accent-dim: #006b34;
+  --input-bg: #ffffff;
+  --input-border: #d2d2d7;
+  --invalid: #d70015;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+.app {
+  min-height: 100vh;
+  padding: clamp(1rem, 4vw, 2rem);
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.theme-toggle {
+  background: var(--surface);
+  border: 1px solid var(--input-border);
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  font-size: 1.25rem;
+  cursor: pointer;
+  color: var(--text);
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.theme-toggle:hover {
+  background: var(--input-bg);
+  border-color: var(--accent);
+}
+
+/* Input panel */
+.input-panel {
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--input-border);
+}
+
+.input-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-end;
+  margin-bottom: 1rem;
+}
+
+.input-row:last-child {
+  margin-bottom: 0;
+}
+
+.input-panel label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  min-width: 120px;
+  flex: 1;
+  max-width: 200px;
+}
+
+.input-panel input,
+.input-panel select {
+  font: inherit;
+  font-family: var(--font-mono);
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--input-border);
+  background: var(--input-bg);
+  color: var(--text);
+  font-size: 1rem;
+}
+
+.input-panel input.input-invalid {
+  border-color: var(--invalid);
+  outline: 2px solid var(--invalid);
+  outline-offset: -2px;
+}
+
+.input-panel input:focus,
+.input-panel select:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-color: var(--accent);
+}
+
+.reset-timer {
+  font: inherit;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--input-border);
+  background: var(--input-bg);
+  color: var(--text);
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.reset-timer:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--bg);
+}
+
+/* Period toggles */
+.period-toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  background: var(--surface);
+  padding: 0.35rem;
+  border-radius: 10px;
+  border: 1px solid var(--input-border);
+}
+
+.toggle-btn {
+  flex: 1;
+  min-width: 70px;
+  padding: 0.6rem 0.75rem;
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.toggle-btn:hover {
+  color: var(--text);
+  background: var(--input-bg);
+}
+
+.toggle-btn-active {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+.toggle-btn-active:hover {
+  background: var(--accent-dim);
+  color: var(--bg);
+}
+
+/* Counter display - debt clock style */
+.counter-display {
+  text-align: center;
+  padding: 2rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.counter-main-label {
+  margin: 0 0 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.counter-main {
+  font-family: var(--font-mono);
+  font-size: clamp(2.5rem, 10vw, 4.5rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--accent);
+  line-height: 1.1;
+  min-height: 1.2em;
+  tab-size: 4;
+}
+
+.counter-main[data-valid='false'] {
+  color: var(--invalid);
+}
+
+.counter-secondary {
+  margin-top: 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem 1rem;
+  justify-items: start;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.counter-secondary-item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.counter-secondary-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.counter-secondary-value {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.assumption-text {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin: 0;
+  text-align: center;
+  max-width: 90%;
+  margin-inline: auto;
+}

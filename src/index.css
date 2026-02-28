@@ -1,0 +1,4 @@
+/* Base reset - app theme and layout are in App.css */
+#root {
+  min-height: 100vh;
+}
